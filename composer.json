@@ -1,0 +1,48 @@
+{
+    "name": "sunnyroy21/laravel-iam",
+    "description": "An elegant way to manage the identity access management for the Laravel framework",
+    "keywords": [
+        "Laravel", 
+        "Laravel rbac implementation with gui",
+        "Identity access management"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Saibal Roy",
+            "email": "sunnyroy21@gmail.com",
+            "homepage": "https://saibalroy.com"
+        }
+    ],
+    "homepage": "https://github.com/sunnyroy21/laravel-iam",
+    
+    "require": {
+        "php": "^7.1.3",
+        "ext-json": "*",
+        "laravel/framework": "~5.7.7",
+        "spatie/laravel-permission": "^2.25",
+        "laravelcollective/html": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelIam\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelIam\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelIam\\LaravelIamServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true    
+}
