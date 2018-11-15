@@ -1,10 +1,5 @@
 # LaravelIAM
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
-
 An elegant way to manage the identity access management for the Laravel framework.
 An approach with the following points in mind:
 1. If you want to have a seperate Identity access management dashboard.
