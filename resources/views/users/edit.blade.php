@@ -6,8 +6,8 @@
 
 <div class='col-lg-4 col-lg-offset-4'>
 
-    <p class="lead"> Edit : {{$user->name}}</p>
-    <hr>
+    <p class="lead"> Edit : {{$user[config('laraveliam.identity_pk')]}}</p>
+
     @include ('laraveliam::errors.list')
 
     {{ Form::model($user, array('route' => array('users.update', $user->id), 'method' => 'PUT')) }} {{-- Form model binding to automatically populate our fields with user data --}}
@@ -44,7 +44,7 @@
 
     </div>
 
-    {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+    {{ Form::submit('Save', array('class' => 'btn btn-primary')) }}
 
     {{ Form::close() }}
 

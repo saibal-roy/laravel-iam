@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="col-lg-10 col-lg-offset-1">
-    <h1><i class="fa fa-key"></i>Available Permissions</h1>
+    <p class="lead"><i class="fa fa-key"></i>Available Permissions</p>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
 

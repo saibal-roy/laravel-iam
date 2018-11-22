@@ -8,8 +8,7 @@
 
         @include ('laraveliam::errors.list')
 
-    <h1><i class='fa fa-key'></i> Add Permission</h1>
-    <br>
+    <p class="lead"><i class='fa fa-key'></i> Add Permission</p>
 
     {{ Form::open(array('url' => route('permissions.store'))) }}
 

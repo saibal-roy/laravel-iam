@@ -26,7 +26,8 @@
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard</h1>                      
+                    <h1 class="h2">Dashboard - Logged In as {{ auth()->user()[config('laraveliam.identity_pk')] }}</h1>
+                                         
                 </div>
                 <div class="row">
                         @yield('content')
@@ -86,8 +87,8 @@ var laravel = {
 
     form = laravel.createForm(link);
     $.post(link.attr('href'), form.serialize())
-        .done(function (data) {
-            window.sweetalert("Deleted successfully!")
+        .done(function (data) {            
+            window.sweetalert(("errors" in data) ? data.errors : "Deleted successfully!")
                 .then((value) => {
                     location.reload();
                 });

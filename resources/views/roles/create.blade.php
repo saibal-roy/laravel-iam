@@ -6,8 +6,7 @@
 
 <div class='col-lg-4 col-lg-offset-4'>
 
-    <h1><i class='fa fa-key'></i> Add Role</h1>
-    <hr>
+    <p class="lead"><i class='fa fa-key'></i> Add Role</p>
     @include ('laraveliam::errors.list')
 
     {{ Form::open(array('url' => route('roles.store'))) }}

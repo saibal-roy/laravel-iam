@@ -6,7 +6,6 @@
 
 <div class='col-lg-4 col-lg-offset-4'>
     <p class="lead"> Edit Role: {{$role->name}}</p>
-    <hr>
     @include ('laraveliam::errors.list')
     {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
 

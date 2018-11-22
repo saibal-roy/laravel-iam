@@ -13,8 +13,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::where('name', '!=', config('iamconstants.sudo_user_role'))->get();
-
+        $roles = Role::get();
         return view('laraveliam::roles.index')
                         ->with('roles', $roles);
     }
@@ -82,11 +81,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        $role = Role::findOrFail($id);
+        if(config('iamconstants.sudo_user_role') == $role->name)
+        {
+            return redirect()->route('roles.index')->withErrors(['Not Allowed.']);
+        }
         $permissions = Permission::all();
-
         return view('laraveliam::roles.edit', compact('role', 'permissions'));
     }
 
@@ -97,11 +98,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $role = Role::findOrFail($id);
+    public function update(Request $request, Role $role)
+    {        
+
         $this->validate($request, [
-            'name' => 'required|unique:roles,name,' . $id,
+            'name' => 'required|unique:roles,name,' . $role->id,
             //'permissions' => 'required',
         ]);
 
@@ -134,9 +135,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        $role = Role::findOrFail($id);
+        if(config('iamconstants.sudo_user_role') == $role->name)
+        {
+            return response()->json(['errors'=>"Not Allowed."]);
+        }
+        
         $role->delete();
 
         return response()->json($response = array('delete' => true), 200);

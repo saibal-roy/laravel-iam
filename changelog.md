@@ -11,3 +11,8 @@ All notable changes to `LaravelIam` will be documented in this file.
 - Super user by default added to the application.
 - Sudo reset password by artisan.
 
+## Version 1.0.1
+
+### Added
+- Bug Fixes and design issues fixed
+- Impersonate for users added and redirected to the home.

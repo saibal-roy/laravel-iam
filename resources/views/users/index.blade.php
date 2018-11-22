@@ -4,7 +4,8 @@
 
 @section('content')
 
-<div class="col-lg-10 col-lg-offset-1">    
+<div class="col-lg-10 col-lg-offset-1">  
+        <p class="lead"> All Users</p>  
     @include ('laraveliam::errors.list')
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -26,7 +27,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at->format('F d, Y h:ia') }}</td>
-                    <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
+                    <td>{{  $user->roles()->pluck('name')->implode(', ') }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
 
                     <td>                    
                         <a href="{{ route('users.edit', $user->id) }}" 
@@ -37,7 +38,10 @@
                                 data-method="delete" class="pull-left" style="margin-right: 3px;">
                             <span data-feather="trash"></span>
                         </a>          
-
+                        <a href="{{ route('impersonate', $user->id) }}" 
+                                class="pull-left" style="margin-right: 3px;">
+                            <span data-feather="log-in"></span>
+                        </a>   
                     </td>
                 </tr>
                 @endforeach

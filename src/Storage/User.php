@@ -14,15 +14,6 @@ class User extends Authenticatable
     use HasRoles;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -46,37 +37,70 @@ class User extends Authenticatable
 
     public static function initializeUserSetup()
     {
-        $user = self::where(config('laraveliam.identity_pk'), 
-        '=', config('iamconstants.sudo_user_pk'))->first();
-        if($user) return $user;
-                
-        $role = config('iamconstants.sudo_user_role');
-        // Seed the default permissions
-        $role = Role::firstOrCreate(['name' => trim($role), 'guard_name' => 'web'], ['name' => trim($role), 'guard_name' => 'web']);
+        $role_name = config('iamconstants.sudo_user_role');
 
-        $user = self::updateOrCreate(
-            [config('laraveliam.identity_pk')=> config('iamconstants.sudo_user_pk')], 
-            [
-                config('laraveliam.identity_pk')=> config('iamconstants.sudo_user_pk'),
-                config('laraveliam.identity_password')=> bcrypt(config('iamconstants.sudo_password')),
-                config('laraveliam.identity_name') => config('iamconstants.sudo_user_name')
-            ]
-        );
-        $user->assignRole($role->name);
-
+        $role = Role::updateOrCreate(
+            ['name' => trim($role_name), 'guard_name' => 'web'], 
+            ['name' => trim($role_name), 'guard_name' => 'web']
+        );               
+        $params = [
+            'email' => config('iamconstants.sudo_user_pk'),
+            'password' => config('iamconstants.sudo_password'),
+            'name' => config('iamconstants.sudo_user_name'),
+            'roles' => [$role->id]
+        ];
+        $user = static::userUpdateCreateBasedOnRoles($params);
         return $user;
     }
 
     public static function resetSudoDefault()
     {
-        $user = self::where(config('laraveliam.identity_pk'), 
-        '=', config('iamconstants.sudo_user_pk'))->first();
-        if($user) 
-        {
-            $user->password = bcrypt(config('iamconstants.sudo_password'));
-            $user->save();
-            return $user;
+        $user = static::initializeUserSetup();
+        return $user;
+    }
+
+    public static function userUpdateCreateBasedOnRoles($params, $user_entity = null)
+    {        
+        $user = static::createUpdateUser($params, $user_entity);
+        if (isset($params['roles'])) {
+            $user->roles()->sync($params['roles']);
+        } else {
+            $user->roles()->detach();
         }
+        return $user;
+    }
+
+    public static function createUpdateUser($params, $user_entity = null)
+    {
+        $update_params = [
+            config('laraveliam.identity_pk')=> $params['email'],
+            config('laraveliam.identity_name') => $params['name']
+        ];
+        if (trim($params['password']) != "")
+        {
+            $update_params[config('laraveliam.identity_password')] = bcrypt($params['password']);
+        }
+        $user = null;
+        if ($user_entity == null)
+        {
+            $user = static::updateOrCreate(
+                        [config('laraveliam.identity_pk')=> $params['email']], $update_params
+                    );
+        }
+        else {
+            $user_entity->update($update_params);
+            $user = $user_entity;
+        }
+        
+        return $user;
+    }
+    public function scopeExcludeSudo($query)
+    {
+        return $query->where(config('laraveliam.identity_pk'), '!=', config('iamconstants.sudo_user_pk'));
+    }
+    public function scopeExcludeAuthUser($query)
+    {
+        return $query->where(config('laraveliam.identity_pk'), '!=', auth()->user()[config('laraveliam.identity_pk')]);
     }
 
 }

@@ -5,8 +5,7 @@
 @section('content')
 
 <div class="col-lg-10 col-lg-offset-1">
-    <h1><i class="fa fa-key"></i> Roles</h1>
-    <hr>
+    <p class="lead"><i class="fa fa-key"></i> Roles</p>
     @include ('laraveliam::errors.list')
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -24,16 +23,26 @@
 
                     <td>{{ $role->name }}</td>
 
-                    <td>{{  $role->permissions()->pluck('name')->implode(', ') }}</td>{{-- Retrieve array of permissions associated to a role and convert to string --}}
+                    <td>{{  $role->permissions()->pluck('name')->implode(', ') ? 
+                            $role->permissions()->pluck('name')->implode(', ') :
+                            (config('iamconstants.sudo_user_role') == $role->name ?
+                            "All permissions granted" :
+                            "No permissions added")
+                     }}</td>{{-- Retrieve array of permissions associated to a role and convert to string --}}
                     <td>
-                        <a href="{{ route('roles.edit', $role->id) }}" 
-                            class="pull-left" style="margin-right: 3px;">
-                            <span data-feather="edit"></span>
-                        </a>
-                        <a href="{{ route('roles.destroy', $role->id) }}" 
-                                data-method="delete" class="pull-left" style="margin-right: 3px;">
-                            <span data-feather="trash"></span>
-                        </a> 
+                        @if(config('iamconstants.sudo_user_role') != $role->name)
+                            <a href="{{ route('roles.edit', $role->id) }}" 
+                                class="pull-left" style="margin-right: 3px;">
+                                <span data-feather="edit"></span>
+                            </a>
+                            <a href="{{ route('roles.destroy', $role->id) }}" 
+                                    data-method="delete" class="pull-left" style="margin-right: 3px;">
+                                <span data-feather="trash"></span>
+                            </a>
+                        @else 
+                            Not Allowed
+                        @endif
+                        
                     </td>
                 </tr>
                 @endforeach

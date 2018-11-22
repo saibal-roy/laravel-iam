@@ -6,7 +6,6 @@ use LaravelIam\Storage\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-
 class UserController extends Controller
 {
 
@@ -17,7 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id', '!=', auth()->user()->id)->get();
+        $users = User::where('id', '!=', auth()->user()->id)
+        ->excludeSudo()
+        ->get();
 
         return view('laraveliam::users.index')
                     ->with('users', $users);
@@ -30,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::where('name', '!=', config('iamconstants.sudo_user_role'))->get();
+        $roles = Role::get();
         if ($roles->isEmpty()) 
         {
             return redirect()->route('users.index')
@@ -53,17 +54,9 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed'
         ]);
-
-        $user = User::create($request->only('email', 'name', 'password'));
-
-        $roles = $request['roles'];
-
-        if (isset($roles)) {
-            foreach ($roles as $role) {
-                $role_r = Role::where('id', '=', $role)->firstOrFail();
-                $user->assignRole($role_r);
-            }
-        }
+        User::userUpdateCreateBasedOnRoles(
+            $request->only('email', 'name', 'password', 'roles')
+        );
 
         return redirect()->route('users.index')
                             ->with('flash_message', 'User successfully added.');
@@ -88,8 +81,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        $roles = Role::where('name', '!=', config('iamconstants.sudo_user_role'))->get();
+        $user = User::excludeSudo()->excludeAuthUser()->find($id);
+        if(!$user)
+        {
+            return redirect()->route('users.index')->withErrors(['Not Allowed.']);
+        }
+        $roles = Role::get();
 
         return view('laraveliam::users.edit', compact('user', 'roles'));
     }
@@ -107,19 +104,12 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|max:120',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'required|min:6|confirmed'
+            'password' => 'nullable|min:6|confirmed'
         ]);
-
-        $input = $request->only(['name', 'email', 'password']);
-        $roles = $request['roles'];
-        //dd($roles);
-        $user->fill($input)->save();
-
-        if (isset($roles)) {
-            $user->roles()->sync($roles);
-        } else {
-            $user->roles()->detach();
-        }
+        $user = $user->userUpdateCreateBasedOnRoles(
+            $request->only('email', 'name', 'password', 'roles'),
+            $user
+        );
         return redirect()->route('users.index')
                             ->with('flash_message', 'User successfully edited.');
     }
