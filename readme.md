@@ -6,6 +6,7 @@ An approach with the following points in mind:
 2. Your existing application user table will not be affected.
 3. Customizable configurations via the config file.
 4. Roles and permissions setup with spatie permissions package. Thanks to their wonderful work.
+5. Impersonate functionality for users added
 
 Please note that it would always be best suitable with the latest version of Laravel.
 ## Installation
