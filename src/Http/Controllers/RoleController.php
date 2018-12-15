@@ -60,7 +60,7 @@ class RoleController extends Controller
             }
         } 
 
-        return redirect()->route('roles.index')
+        return redirect()->route('laravel-iam.roles.index')
                             ->with('flash_message', 'Role' . $role->name . ' added!');
     }
 
@@ -72,7 +72,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        return redirect('roles');
+        return redirect('laravel-iam.roles');
     }
 
     /**
@@ -125,7 +125,7 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('roles.index')
+        return redirect()->route('laravel-iam.roles.index')
                             ->with('flash_message', 'Role' . $role->name . ' updated!');
     }
 

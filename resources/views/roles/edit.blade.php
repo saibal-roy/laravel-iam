@@ -7,7 +7,7 @@
 <div class='col-lg-4 col-lg-offset-4'>
     <p class="lead"> Edit Role: {{$role->name}}</p>
     @include ('laraveliam::errors.list')
-    {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
+    {{ Form::model($role, array('route' => array('laravel-iam.roles.update', $role->id), 'method' => 'PUT')) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Role Name') }}

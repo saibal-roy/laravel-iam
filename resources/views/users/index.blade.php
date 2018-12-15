@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="col-lg-10 col-lg-offset-1">  
-        <p class="lead"> All Users</p>  
+        <p class="lead"> All Users <br/> <span data-feather="log-in"></span> - This allows you to impersonate users login</p>  
     @include ('laraveliam::errors.list')
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -30,16 +30,16 @@
                     <td>{{  $user->roles()->pluck('name')->implode(', ') }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
 
                     <td>                    
-                        <a href="{{ route('users.edit', $user->id) }}" 
+                        <a href="{{ route('laravel-iam.users.edit', $user->id) }}" 
                             class="pull-left" style="margin-right: 3px;">
                             <span data-feather="edit"></span>
                         </a>
-                        <a href="{{ route('users.destroy', $user->id) }}" 
+                        <a href="{{ route('laravel-iam.users.destroy', $user->id) }}" 
                                 data-method="delete" class="pull-left" style="margin-right: 3px;">
                             <span data-feather="trash"></span>
                         </a>          
                         <a href="{{ route('impersonate', $user->id) }}" 
-                                class="pull-left" style="margin-right: 3px;">
+                                class="pull-left" style="margin-right: 3px;" title="Impersonate">
                             <span data-feather="log-in"></span>
                         </a>   
                     </td>
@@ -49,6 +49,6 @@
 
         </table>
     </div>
-    <a href="{{ route('users.create') }}" class="btn btn-success">Add User</a>
+    <a href="{{ route('laravel-iam.users.create') }}" class="btn btn-success">Add User</a>
 </div>
 @endsection

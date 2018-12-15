@@ -9,7 +9,7 @@
     <p class="lead"><i class='fa fa-key'></i> Add Role</p>
     @include ('laraveliam::errors.list')
 
-    {{ Form::open(array('url' => route('roles.store'))) }}
+    {{ Form::open(array('url' => route('laravel-iam.roles.store'))) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Name') }}

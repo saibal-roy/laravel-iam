@@ -16,3 +16,9 @@ All notable changes to `LaravelIam` will be documented in this file.
 ### Added
 - Bug Fixes and design issues fixed
 - Impersonate for users added and redirected to the home.
+
+## Version 1.0.2
+
+### Added
+- Prefix added for naming routes associated with users, roles and permissions to avoid route naming conflicts
+- User List UI updated for impersonate icon description

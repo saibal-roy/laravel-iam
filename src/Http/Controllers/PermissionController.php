@@ -61,7 +61,7 @@ class PermissionController extends Controller
             }
         }
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('laravel-iam.permissions.index')
                         ->with('flash_message','Permission'. $permission->name.' added!');
     }
 
@@ -73,7 +73,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        return redirect('permissions');
+        return redirect('laravel-iam.permissions');
     }
 
     /**
@@ -126,7 +126,7 @@ class PermissionController extends Controller
             }
         }
 
-        return redirect()->route('permissions.index')
+        return redirect()->route('laravel-iam.permissions.index')
             ->with('flash_message', 'Permission'. $permission->name.' updated!');
     }
 

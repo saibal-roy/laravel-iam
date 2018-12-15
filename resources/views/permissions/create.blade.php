@@ -10,7 +10,7 @@
 
     <p class="lead"><i class='fa fa-key'></i> Add Permission</p>
 
-    {{ Form::open(array('url' => route('permissions.store'))) }}
+    {{ Form::open(array('url' => route('laravel-iam.permissions.store'))) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Name') }}

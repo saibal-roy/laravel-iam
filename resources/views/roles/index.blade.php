@@ -31,11 +31,11 @@
                      }}</td>{{-- Retrieve array of permissions associated to a role and convert to string --}}
                     <td>
                         @if(config('iamconstants.sudo_user_role') != $role->name)
-                            <a href="{{ route('roles.edit', $role->id) }}" 
+                            <a href="{{ route('laravel-iam.roles.edit', $role->id) }}" 
                                 class="pull-left" style="margin-right: 3px;">
                                 <span data-feather="edit"></span>
                             </a>
-                            <a href="{{ route('roles.destroy', $role->id) }}" 
+                            <a href="{{ route('laravel-iam.roles.destroy', $role->id) }}" 
                                     data-method="delete" class="pull-left" style="margin-right: 3px;">
                                 <span data-feather="trash"></span>
                             </a>
@@ -51,7 +51,7 @@
         </table>
     </div>
 
-    <a href="{{ route('roles.create') }}" class="btn btn-success">Add Role</a>
+    <a href="{{ route('laravel-iam.roles.create') }}" class="btn btn-success">Add Role</a>
 
 </div>
 

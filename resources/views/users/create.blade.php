@@ -10,7 +10,7 @@
 
     @include ('laraveliam::errors.list')
 
-    {{ Form::open(array('url' => route('users.store'))) }}
+    {{ Form::open(array('url' => route('laravel-iam.users.store'))) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Name') }}

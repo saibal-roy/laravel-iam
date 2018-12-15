@@ -9,7 +9,7 @@
         @include ('laraveliam::errors.list')
 
     <p class="lead"> Edit : {{$permission->name}}</p>
-    {{ Form::model($permission, array('route' => array('permissions.update', $permission->id), 'method' => 'PUT')) }}
+    {{ Form::model($permission, array('route' => array('laravel-iam.permissions.update', $permission->id), 'method' => 'PUT')) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Permission Name') }}

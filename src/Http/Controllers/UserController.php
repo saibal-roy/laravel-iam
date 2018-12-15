@@ -58,7 +58,7 @@ class UserController extends Controller
             $request->only('email', 'name', 'password', 'roles')
         );
 
-        return redirect()->route('users.index')
+        return redirect()->route('laravel-iam.users.index')
                             ->with('flash_message', 'User successfully added.');
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return redirect('users');
+        return redirect('laravel-iam.users');
     }
 
     /**
@@ -84,7 +84,7 @@ class UserController extends Controller
         $user = User::excludeSudo()->excludeAuthUser()->find($id);
         if(!$user)
         {
-            return redirect()->route('users.index')->withErrors(['Not Allowed.']);
+            return redirect()->route('laravel-iam.users.index')->withErrors(['Not Allowed.']);
         }
         $roles = Role::get();
 
@@ -110,7 +110,7 @@ class UserController extends Controller
             $request->only('email', 'name', 'password', 'roles'),
             $user
         );
-        return redirect()->route('users.index')
+        return redirect()->route('laravel-iam.users.index')
                             ->with('flash_message', 'User successfully edited.');
     }
 
