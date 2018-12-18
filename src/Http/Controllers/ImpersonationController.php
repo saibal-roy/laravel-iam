@@ -2,17 +2,17 @@
 
 namespace LaravelIam\Http\Controllers;
 
-use LaravelIam\Storage\User;
+use LaravelIam\Storage\LaravelIamUser;
 
 class ImpersonationController extends Controller
 {
     /**
      * Impersonate the given user.
      *
-     * @param  User $user
+     * @param  LaravelIamUser $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function __invoke(User $user)
+    public function __invoke(LaravelIamUser $user)
     {
         auth()->login($user);
 

@@ -2,13 +2,16 @@
 
 namespace LaravelIam\Storage;
 
+use App\User;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-class User extends Authenticatable
+
+class LaravelIamUser extends User
 {
     use Notifiable;
     use HasRoles;

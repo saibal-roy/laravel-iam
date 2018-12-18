@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Console\DetectsApplicationNamespace;
 
-use LaravelIam\Storage\User;
+use LaravelIam\Storage\LaravelIamUser;
 
 class ResetSudoCommand extends Command
 {
@@ -34,7 +34,7 @@ class ResetSudoCommand extends Command
     public function handle()
     {
         $this->comment('Reset sudo user credentials...');        
-        User::resetSudoDefault();
+        LaravelIamUser::resetSudoDefault();
         $this->info('Reset sudo user credentials successfully.');
     }
 

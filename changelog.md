@@ -22,3 +22,8 @@ All notable changes to `LaravelIam` will be documented in this file.
 ### Added
 - Prefix added for naming routes associated with users, roles and permissions to avoid route naming conflicts
 - User List UI updated for impersonate icon description
+
+## Version 1.0.3
+
+### Added
+- Bug fixes and LaravelIamUser Model to be used outside the package.

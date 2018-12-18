@@ -67,6 +67,28 @@ Config constants that can be modified via .env
 
 ```
 
+Add the following methods to access the LaravelIamUser Model to access the roles and responsiblities
+
+```
+    public static function getLaravelIamUser()
+    {
+        $user_model = config('laraveliam.user_model');
+        return new $user_model();
+    }
+
+    public static function getLoggedInIamUser()
+    {
+        return auth()->user() ?? static::getLaravelIamUser()->find(auth()->user()->id);
+    }
+
+    public static function registerUser($data)
+    {
+        $user = static::create($data);
+        $laravel_iam_user = static::getLaravelIamUser()->find($user->id);
+        $laravel_iam_user->assignRole('user');
+        return $laravel_iam_user;
+    }
+```
 
 ## Change log
 

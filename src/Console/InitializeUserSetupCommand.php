@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Console\DetectsApplicationNamespace;
 
-use LaravelIam\Storage\User;
+use LaravelIam\Storage\LaravelIamUser;
 
 class InitializeUserSetupCommand extends Command
 {
@@ -34,7 +34,7 @@ class InitializeUserSetupCommand extends Command
     public function handle()
     {
         $this->comment('Creating admin auth...');        
-        User::initializeUserSetup();
+        LaravelIamUser::initializeUserSetup();
         $this->info('Created admin auth successfully.');
     }
 

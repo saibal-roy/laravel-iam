@@ -2,7 +2,7 @@
 namespace LaravelIam\Http\Controllers;
 
 use Illuminate\Http\Request;
-use LaravelIam\Storage\User;
+use LaravelIam\Storage\LaravelIamUser;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id', '!=', auth()->user()->id)
+        $users = LaravelIamUser::where('id', '!=', auth()->user()->id)
         ->excludeSudo()
         ->get();
 
@@ -54,7 +54,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed'
         ]);
-        User::userUpdateCreateBasedOnRoles(
+        LaravelIamUser::userUpdateCreateBasedOnRoles(
             $request->only('email', 'name', 'password', 'roles')
         );
 
@@ -81,7 +81,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::excludeSudo()->excludeAuthUser()->find($id);
+        $user = LaravelIamUser::excludeSudo()->excludeAuthUser()->find($id);
         if(!$user)
         {
             return redirect()->route('laravel-iam.users.index')->withErrors(['Not Allowed.']);
@@ -100,7 +100,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = LaravelIamUser::findOrFail($id);
         $this->validate($request, [
             'name' => 'required|max:120',
             'email' => 'required|email|unique:users,email,' . $id,
@@ -122,7 +122,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = LaravelIamUser::findOrFail($id);
         $user->delete();
 
         return response()->json($response = array('delete' => true), 200);

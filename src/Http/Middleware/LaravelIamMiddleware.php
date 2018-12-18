@@ -3,7 +3,7 @@
 namespace LaravelIam\Http\Middleware;
 
 use Closure;
-use LaravelIam\Storage\User;
+use LaravelIam\Storage\LaravelIamUser;
 
 class LaravelIamMiddleware
 {
@@ -25,7 +25,7 @@ class LaravelIamMiddleware
             }                   
             return redirect()->route(config('laraveliam.login_route'));
         }
-        $user = User::find(auth()->user()->id);
+        $user = LaravelIamUser::find(auth()->user()->id);
         if ($user->hasRole(config('iamconstants.sudo_user_name'))) {            
             return $next($request);
         }                       

@@ -24,6 +24,8 @@ return [
         ],
     ],
 
+    'user_model' =>  LaravelIam\Storage\LaravelIamUser::class,
+
     'show_forbidden_page_for_without_login' => env('LARAVEL_IAM_WITHOUT_LOGIN_CHECK', false),
     'login_route' => env('LARAVEL_IAM_LOGIN_ROUTE', 'login'),    
     'identity_table' => env('LARAVEL_IAM_IDENTITY_TABLE', 'users'),
