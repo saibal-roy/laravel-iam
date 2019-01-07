@@ -27,3 +27,9 @@ All notable changes to `LaravelIam` will be documented in this file.
 
 ### Added
 - Bug fixes and LaravelIamUser Model to be used outside the package.
+
+
+## Version 1.0.4
+
+### Added
+- Bug fixes for webpack vulnerabilities.
