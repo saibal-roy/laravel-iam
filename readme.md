@@ -13,7 +13,7 @@ Please note that it would always be best suitable with the latest version of Lar
 Via Composer
 
 ``` bash
-    composer require sunnyroy21/laravel-iam
+    composer require saibal-roy/laravel-iam
 
 ```
 Artisan 
