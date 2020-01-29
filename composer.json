@@ -1,5 +1,5 @@
 {
-    "name": "sunnyroy21/laravel-iam",
+    "name": "saibal-roy/laravel-iam",
     "description": "An elegant way to manage the identity access management for the Laravel framework",
     "keywords": [
         "Laravel", 
@@ -14,7 +14,7 @@
             "homepage": "https://saibalroy.com"
         }
     ],
-    "homepage": "https://github.com/sunnyroy21/laravel-iam",
+    "homepage": "https://github.com/saibal-roy/laravel-iam",
     
     "require": {
         "php": "^7.1.3",
