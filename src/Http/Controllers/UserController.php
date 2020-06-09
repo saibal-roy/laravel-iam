@@ -1,10 +1,10 @@
 <?php
+
 namespace LaravelIam\Http\Controllers;
 
 use Illuminate\Http\Request;
 use LaravelIam\Storage\LaravelIamUser;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -17,11 +17,11 @@ class UserController extends Controller
     public function index()
     {
         $users = LaravelIamUser::where('id', '!=', auth()->user()->id)
-        ->excludeSudo()
-        ->get();
+            ->excludeSudo()
+            ->paginate(10);
 
         return view('laraveliam::users.index')
-                    ->with('users', $users);
+            ->with('users', $users);
     }
 
     /**
@@ -32,12 +32,11 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::get();
-        if ($roles->isEmpty()) 
-        {
+        if ($roles->isEmpty()) {
             return redirect()->route('users.index')
-                                ->withErrors('Please create a role first.');
+                ->withErrors('Please create a role first.');
         }
-        
+
         return view('laraveliam::users.create', ['roles' => $roles]);
     }
 
@@ -59,7 +58,7 @@ class UserController extends Controller
         );
 
         return redirect()->route('laravel-iam.users.index')
-                            ->with('flash_message', 'User successfully added.');
+            ->with('flash_message', 'User successfully added.');
     }
 
     /**
@@ -82,8 +81,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = LaravelIamUser::excludeSudo()->excludeAuthUser()->find($id);
-        if(!$user)
-        {
+        if (!$user) {
             return redirect()->route('laravel-iam.users.index')->withErrors(['Not Allowed.']);
         }
         $roles = Role::get();
@@ -111,7 +109,7 @@ class UserController extends Controller
             $user
         );
         return redirect()->route('laravel-iam.users.index')
-                            ->with('flash_message', 'User successfully edited.');
+            ->with('flash_message', 'User successfully edited.');
     }
 
     /**

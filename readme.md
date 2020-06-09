@@ -1,13 +1,20 @@
 # LaravelIAM
 
 An elegant way to manage the identity access management for the Laravel framework.
-An approach with the following points in mind:
+An approach being taken with the following points in mind:
 1. If you want to have a seperate Identity access management dashboard.
 2. Your existing application user table will not be affected.
 3. Customizable configurations via the config file.
 4. Roles and permissions setup with spatie permissions package. Thanks to their wonderful work.
 
-Please note that it would always be best suitable with the latest version of Laravel.
+## Features
+1. Laravel version support from 5.6 onwards.
+2. Seperate Identity Access Management dashboard
+3. Manage users
+4. Manage roles
+5. Manage permissions
+6. Impersonate users login
+
 ## Installation
 
 Via Composer
@@ -16,29 +23,47 @@ Via Composer
     composer require saibal-roy/laravel-iam
 
 ```
-Artisan 
+Create Authentication scaffolding:
+For Laravel version < 5.8
+``` bash
+    php artisan make:auth
+```
+For Laravel version 6.x
+``` bash
+    composer require laravel/ui "^1.0" --dev
+    php artisan ui bootstrap --auth
+```
+For Laravel version 7.x
+``` bash
+    composer require laravel/ui
+    php artisan ui bootstrap --auth
+```
+#### Please make sure laravel authentication scaffolding is being completed before you proceed further.
+Artisan
 ``` bash
     php artisan migrate
-    php artisan laravel-iam:create-admin # to create the sudo and administrator setup
+    php artisan laravel-iam:setup-root # to setup the root user
     php artisan laravel-iam:publish --force # for each new package update for all publishable contents
-    
-```   
-Default Credentials and Dashboard 
+
+```
+Default Credentials and Dashboard
 ``` bash
     Username : sudo@email.com
-    Password : secret 
+    Password : secret
     User : {domain}/iam or localhost:8000/iam (locally)
-    
-```  
+
+```
 
 ## Usage
 
 Artisan commands
 
 ``` bash
- php artisan vendor:publish --tag=laravel-iam-assets --force # for each new package update
- php artisan vendor:publish --tag=laravel-iam-config --force # for each new package update 
- php artisan laravel-iam:reset-sudo # for reset password via artisan to default password "secret"
+# for each new package update for all publishable contents
+php artisan laravel-iam:publish --force
+
+# can also use it to reset the root user credentials
+php artisan laravel-iam:setup-root
 
 ```
 
@@ -47,47 +72,47 @@ Artisan commands
 Config constants that can be modified via .env
 
 ``` bash
-# This is boolean value option to show the forbidden page for without logged in user. 
-# By default it is set to false, which will redirect to the default login page.
-'show_forbidden_page_for_without_login' => env('LARAVEL_IAM_WITHOUT_LOGIN_CHECK', false)
-# if "show_forbidden_page_for_without_login" option is set to false, "login_route" enables
-# to have an option to provide the route string. Default is "login"
-'login_route' => env('LARAVEL_IAM_LOGIN_ROUTE', 'login')
-# This option enables to customize the default users table. Default is "users"    
-'identity_table' => env('LARAVEL_IAM_IDENTITY_TABLE', 'users')
-# This option enables to customize the default users table primary key column name. 
-# Default is "email" 
-'identity_pk' => env('LARAVEL_IAM_IDENTITY_PK', 'email')
-# This option enables to customize the default users table name field column name. 
-# Default is "name" 
-'identity_name' => env('LARAVEL_IAM_IDENTITY_NAME', 'name')
-# This option enables to customize the default users table password field column name. 
-# Default is "password" 
-'identity_password' => env('LARAVEL_IAM_IDENTITY_PWD', 'password')
+#   /*
+#    |--------------------------------------------------------------------------
+#    | LaravelIAM Identity configurations
+#    |--------------------------------------------------------------------------
+#    |
+#    | This configuration options determines the identity table that will
+#    | be used to store Laravel IAM's data. In addition,
+#    | you may set any custom options as needed.
+#    |
+#    */
+
+    'identity_table' => env('LARAVELIAM_TABLE', 'users'),
+    'identity_pk' => env('LARAVELIAM_TBL_PK_COLUMN', 'email'),
+    'identity_name' => env('LARAVELIAM_TBL_NAME_COLUMN', 'name'),
+    'identity_password' => env('LARAVELIAM_TBL_PWD_COLUMN', 'password'),
+
+#   /*
+#    |--------------------------------------------------------------------------
+#    | LaravelIAM Root User values
+#    |--------------------------------------------------------------------------
+#    |
+#    | This configuration options determines the root user credentials. In addition,
+#    | you may set any custom options as needed.
+#    |
+#    */
+
+    'sudo_user_name' => 'sudo',
+    'sudo_user_pk' => 'sudo@email.com',
+    'sudo_password' => 'secret'
 
 ```
 
-Add the following methods to access the LaravelIamUser Model to access the roles and responsiblities
+Get the LarvelIam User wrapper to access all the roles and permissions of spatie package.
 
 ```
-    public static function getLaravelIamUser()
-    {
-        $user_model = config('laraveliam.user_model');
-        return new $user_model();
-    }
+    app('laraveliam')->identity()
+```
 
-    public static function getLoggedInIamUser()
-    {
-        return auth()->user() ?? static::getLaravelIamUser()->find(auth()->user()->id);
-    }
-
-    public static function registerUser($data)
-    {
-        $user = static::create($data);
-        $laravel_iam_user = static::getLaravelIamUser()->find($user->id);
-        $laravel_iam_user->assignRole('user');
-        return $laravel_iam_user;
-    }
+Check the current user is a allowed user for viewing LaravelIam Dashboard.
+```
+    app('laraveliam')->iam()
 ```
 
 ## Change log
@@ -96,7 +121,7 @@ Please see the [changelog](changelog.md) for more information on what has change
 
 ## Security
 
-If you discover any security related issues, please email sunnyroy21@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email connectsaibalroy@gmail.com instead of using the issue tracker.
 
 ## License
 

@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="col-lg-10 col-lg-offset-1">
-    <p class="lead"><i class="fa fa-key"></i> Roles</p>
+    <h1 class="h2"><span data-feather="award"></span> Roles</h1>
     @include ('laraveliam::errors.list')
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
@@ -23,7 +23,7 @@
 
                     <td>{{ $role->name }}</td>
 
-                    <td>{{  $role->permissions()->pluck('name')->implode(', ') ? 
+                    <td>{{  $role->permissions()->pluck('name')->implode(', ') ?
                             $role->permissions()->pluck('name')->implode(', ') :
                             (config('iamconstants.sudo_user_role') == $role->name ?
                             "All permissions granted" :
@@ -31,18 +31,18 @@
                      }}</td>{{-- Retrieve array of permissions associated to a role and convert to string --}}
                     <td>
                         @if(config('iamconstants.sudo_user_role') != $role->name)
-                            <a href="{{ route('laravel-iam.roles.edit', $role->id) }}" 
-                                class="pull-left" style="margin-right: 3px;">
-                                <span data-feather="edit"></span>
-                            </a>
-                            <a href="{{ route('laravel-iam.roles.destroy', $role->id) }}" 
-                                    data-method="delete" class="pull-left" style="margin-right: 3px;">
-                                <span data-feather="trash"></span>
-                            </a>
-                        @else 
-                            Not Allowed
+                        <a href="{{ route('laravel-iam.roles.edit', $role->id) }}" class="pull-left"
+                            style="margin-right: 3px;">
+                            <span data-feather="edit"></span>
+                        </a>
+                        <a href="{{ route('laravel-iam.roles.destroy', $role->id) }}" data-method="delete"
+                            class="pull-left" style="margin-right: 3px;">
+                            <span data-feather="trash"></span>
+                        </a>
+                        @else
+                        Not Allowed
                         @endif
-                        
+
                     </td>
                 </tr>
                 @endforeach

@@ -33,3 +33,9 @@ All notable changes to `LaravelIam` will be documented in this file.
 
 ### Added
 - Bug fixes for webpack vulnerabilities.
+
+## Version 1.0.5
+
+### Added
+- Bug fixes.
+- Added Laravel support upto Laravel 7

@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="col-lg-10 col-lg-offset-1">
-    <p class="lead"><i class="fa fa-key"></i>Available Permissions</p>
+    <h1 class="h2"><span data-feather="key"></span> Available Permissions</h1>
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
 
@@ -18,16 +18,16 @@
             <tbody>
                 @foreach ($permissions as $permission)
                 <tr>
-                    <td>{{ $permission->name }}</td> 
-                    <td>                   
-                        <a href="{{ route('laravel-iam.permissions.edit', $permission->id) }}" 
-                            class="pull-left" style="margin-right: 3px;">
+                    <td>{{ $permission->name }}</td>
+                    <td>
+                        <a href="{{ route('laravel-iam.permissions.edit', $permission->id) }}" class="pull-left"
+                            style="margin-right: 3px;">
                             <span data-feather="edit"></span>
                         </a>
-                        <a href="{{ route('laravel-iam.permissions.destroy', $permission->id) }}" 
-                                data-method="delete" class="pull-left" style="margin-right: 3px;">
+                        <a href="{{ route('laravel-iam.permissions.destroy', $permission->id) }}" data-method="delete"
+                            class="pull-left" style="margin-right: 3px;">
                             <span data-feather="trash"></span>
-                        </a> 
+                        </a>
                     </td>
                 </tr>
                 @endforeach

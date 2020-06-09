@@ -1,9 +1,9 @@
 <?php
+
 namespace LaravelIam;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-
 
 class LaravelIamServiceProvider extends ServiceProvider
 {
@@ -19,8 +19,9 @@ class LaravelIamServiceProvider extends ServiceProvider
         $this->registerMigrations();
         $this->registerPublishing();
         $this->loadViewsFrom(
-            __DIR__.'/../resources/views', 'laraveliam'
-        );       
+            __DIR__ . '/../resources/views',
+            'laraveliam'
+        );
     }
 
     /**
@@ -31,7 +32,7 @@ class LaravelIamServiceProvider extends ServiceProvider
     private function registerRoutes()
     {
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+            $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
         });
     }
 
@@ -44,8 +45,7 @@ class LaravelIamServiceProvider extends ServiceProvider
     {
         return [
             'namespace' => 'LaravelIam\Http\Controllers',
-            'prefix' => config('laraveliam.path'),
-            'middleware' => 'laraveliam',
+            'prefix' => config('iamconstants.path'),
         ];
     }
 
@@ -57,7 +57,7 @@ class LaravelIamServiceProvider extends ServiceProvider
     private function registerMigrations()
     {
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__.'/Storage/migrations');
+            $this->loadMigrationsFrom(__DIR__ . '/Storage/migrations');
         }
     }
 
@@ -70,16 +70,16 @@ class LaravelIamServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../public' => public_path('vendor/laravel-iam'),
+                __DIR__ . '/../public' => public_path('vendor/laravel-iam'),
             ], 'laravel-iam-assets');
 
             $this->publishes([
-                __DIR__.'/../config/laraveliam.php' => config_path('laraveliam.php'),
+                __DIR__ . '/../config/laraveliam.php' => config_path('laraveliam.php'),
             ], 'laravel-iam-config');
         }
     }
 
-    
+
 
 
 
@@ -90,19 +90,17 @@ class LaravelIamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laraveliam.php', 'laraveliam');
-        $this->mergeConfigFrom(__DIR__.'/../config/iamconstants.php', 'iamconstants');
+        $this->mergeConfigFrom(__DIR__ . '/../config/laraveliam.php', 'laraveliam');
+        $this->mergeConfigFrom(__DIR__ . '/../config/iamconstants.php', 'iamconstants');
         // Register the service the package provides.
         $this->app->singleton('laraveliam', function ($app) {
             return new LaravelIam;
         });
 
         $this->commands([
-            Console\InitializeUserSetupCommand::class,
+            Console\SetupRootIamUserCommand::class,
             Console\PublishCommand::class,
-            Console\ResetSudoCommand::class,
         ]);
-        
     }
 
     /**
@@ -113,5 +111,5 @@ class LaravelIamServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['laraveliam'];
-    }    
+    }
 }

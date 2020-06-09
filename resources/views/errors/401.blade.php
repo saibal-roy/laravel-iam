@@ -1,9 +1,11 @@
-@extends('layouts.app')
+@extends('laraveliam::layouts.app')
 
 @section('content')
-	<div class='col-lg-4 col-lg-offset-4'>
-		<h1><center>401<br>
-		ACCESS DENIED</center></h1>
-	</div>
+<div class="container mt-4">
+
+	<h2 class="text-danger">Sorry! You don't have access priviledges.</h2>
+
+</div>
+
 
 @endsection
